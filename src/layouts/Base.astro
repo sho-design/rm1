@@ -23,6 +23,9 @@ const accentStyle = institute
   ? `--accent: var(--accent-${institute.accent}); --accent-text: var(--accent-${institute.accent}-text);`
   : undefined;
 
+const brandHref = institute ? `/${institute.slug}` : '/';
+const brandName = 'Restoration Medical';
+const brandLine = institute ? institute.formalName : 'Refined by Medicine';
 const year = 2026;
 ---
 
@@ -38,135 +41,162 @@ const year = 2026;
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {/* Set brand mode before paint to avoid a flash. */}
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t !== 'dark' && t !== 'light') {
+            t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body style={accentStyle}>
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="nav">
-      <div class="wrap nav__inner">
-        {
-          institute ? (
-            <a class="brand" href={`/${institute.slug}`} aria-label={`Restoration Medical — ${institute.formalName}`}>
-              <span class="brand__name">Restoration Medical</span>
-              <span class="brand__line">{institute.formalName}</span>
-            </a>
-          ) : (
-            <a class="brand" href="/" aria-label="Restoration Medical — Refined by Medicine">
-              <span class="brand__name">Restoration Medical</span>
-              <span class="brand__line">Refined by Medicine</span>
-            </a>
-          )
-        }
+      <div class="wrap nav__bar">
+        <a class="nav__brand" href={brandHref} aria-label={`${brandName} — ${brandLine}`}>
+          <span class="nav__brand-name">{brandName}</span>
+          <span class="nav__brand-line">{brandLine}</span>
+        </a>
 
-        <nav aria-label="Primary">
+        <nav class="nav__links" aria-label="Primary">
           {
             institute ? (
-              <ul class="nav__links">
-                <li><a class="nav__link" href={`/${institute.slug}`}>Overview</a></li>
-                <li><a class="nav__link" href={`/${institute.slug}#approach`}>Approach</a></li>
+              <>
+                <a class="nav__link" href={`/${institute.slug}`}>Overview</a>
+                <a class="nav__link" href={`/${institute.slug}#approach`}>Approach</a>
                 {institute.status === 'live' && institute.liveUrl && (
-                  <li><a class="nav__link" href={institute.liveUrl}>Full site</a></li>
+                  <a class="nav__link" href={institute.liveUrl}>Full site</a>
                 )}
-                <li><a class="nav__link" href="/#institutes">All institutes</a></li>
-                <li><a class="btn btn--ghost" href="/contact">Book a consult</a></li>
-              </ul>
+                <a class="nav__link" href="/#institutes">All institutes</a>
+              </>
             ) : (
-              <ul class="nav__links">
-                <li>
-                  <button
-                    class="nav__trigger"
-                    aria-expanded="false"
-                    aria-controls="mega-institutes"
-                    data-mega="mega-institutes"
-                  >
-                    Institutes <span class="nav__caret" aria-hidden="true" />
-                  </button>
-                </li>
-                <li><a class="nav__link" href="/about">About</a></li>
-                <li><a class="nav__link" href="/physicians">Physicians</a></li>
-                <li><a class="nav__link" href="/locations">Locations</a></li>
-                <li><a class="nav__link" href="/contact">Contact</a></li>
-                <li><a class="btn btn--ghost" href="/contact">Book a consult</a></li>
-              </ul>
+              <div class="nav__has-panel">
+                <button
+                  class="nav__link nav__trigger"
+                  data-dropdown
+                  aria-controls="mega-institutes"
+                  aria-expanded="false"
+                >
+                  Institutes
+                  <svg class="nav__chev" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+                    <path d="M1 1.5 6 6l5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  </svg>
+                </button>
+              </div>
             )
           }
+          {!institute && <a class="nav__link" href="/about">About</a>}
+          {!institute && <a class="nav__link" href="/physicians">Physicians</a>}
+          {!institute && <a class="nav__link" href="/locations">Locations</a>}
+
+          <button class="nav__theme" data-theme-toggle aria-label="Toggle light or dark mode">
+            <svg class="nav__theme-icon nav__theme-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+            </svg>
+            <svg class="nav__theme-icon nav__theme-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6" />
+              <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+            </svg>
+          </button>
+
+          <a class="nav__link nav__cta btn" href="/contact">Book a consult</a>
         </nav>
 
-        <button class="nav__burger" aria-label="Open menu" aria-expanded="false" data-drawer-open>
-          <span /><span /><span />
+        <button
+          class="nav__burger"
+          data-burger
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <span class="nav__burger-lines">
+            <span class="nav__burger-bar"></span>
+            <span class="nav__burger-bar"></span>
+          </span>
         </button>
       </div>
 
       {
         !institute && (
-          <div class="mega" id="mega-institutes" role="region" aria-label="Institutes">
-            <div class="wrap mega__grid">
-              <div class="mega__col">
-                <h4>Institutes</h4>
-                {institutes.slice(0, 3).map((i) => (
-                  <a class="mega__item" href={`/${i.slug}`} style={`--accent: var(--accent-${i.accent})`}>
-                    <span class="mega__dot" />
-                    {i.name}
-                  </a>
-                ))}
-              </div>
-              <div class="mega__col">
-                <h4>&nbsp;</h4>
-                {institutes.slice(3).map((i) => (
-                  <a class="mega__item" href={`/${i.slug}`} style={`--accent: var(--accent-${i.accent})`}>
-                    <span class="mega__dot" />
-                    {i.name}
-                  </a>
-                ))}
-              </div>
-              <div class="mega__col">
-                <h4>The institution</h4>
-                <a class="mega__item" href="/about">About</a>
-                <a class="mega__item" href="/physicians">Physicians</a>
-                <a class="mega__item" href="/locations">Locations</a>
-              </div>
-              <div class="mega__col">
-                <h4>Start here</h4>
-                <a class="mega__item" href="/#institutes">Choose your journey</a>
-                <a class="mega__item" href="/resources">Resources</a>
-                <a class="mega__item" href="/careers">Careers</a>
-                <a class="mega__item" href="/contact">Book a consult</a>
+          <div class="mega" id="mega-institutes" hidden>
+            <div class="wrap">
+              <div class="mega__inner">
+                <div>
+                  <p class="mega__heading">Institutes</p>
+                  <ul class="mega__list mega__list--two">
+                    {institutes.map((i) => (
+                      <li>
+                        <a class="mega__item" href={`/${i.slug}`} style={`--dot: var(--accent-${i.accent})`}>
+                          <span class="mega__dot" />
+                          <span class="mega__name">{i.name}</span>
+                          <span class="mega__desc">{i.essence}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p class="mega__heading">The institution</p>
+                  <ul class="mega__list">
+                    <li><a class="mega__item mega__item--plain" href="/about"><span class="mega__name">About</span></a></li>
+                    <li><a class="mega__item mega__item--plain" href="/physicians"><span class="mega__name">Physicians</span></a></li>
+                    <li><a class="mega__item mega__item--plain" href="/locations"><span class="mega__name">Locations</span></a></li>
+                    <li><a class="mega__item mega__item--plain" href="/resources"><span class="mega__name">Resources</span></a></li>
+                    <li><a class="mega__item mega__item--plain" href="/careers"><span class="mega__name">Careers</span></a></li>
+                  </ul>
+                </div>
               </div>
             </div>
+            <div class="mega__foot">Different worlds. One standard of care.</div>
           </div>
         )
       }
     </header>
 
-    <!-- Mobile drawer + scrim -->
-    <div class="scrim" data-drawer-close></div>
-    <aside class="drawer" aria-label="Menu">
-      {
-        institute ? (
-          <>
-            <a href={`/${institute.slug}`}>Overview</a>
-            <a href={`/${institute.slug}#approach`}>Approach</a>
-            {institute.status === 'live' && institute.liveUrl && <a href={institute.liveUrl}>Full site</a>}
-            <a href="/#institutes">All institutes</a>
-            <a class="btn" href="/contact" style="margin-top:1.2rem">Book a consult</a>
-          </>
-        ) : (
-          <>
-            <a href="/about">About</a>
-            <a href="/physicians">Physicians</a>
-            <a href="/locations">Locations</a>
-            <a href="/resources">Resources</a>
-            <a href="/careers">Careers</a>
-            <details>
-              <summary>Institutes</summary>
-              {institutes.map((i) => (
-                <a href={`/${i.slug}`}>{i.name}</a>
-              ))}
-            </details>
-            <a class="btn" href="/contact" style="margin-top:1.2rem">Book a consult</a>
-          </>
-        )
-      }
+    <!-- Mobile menu + scrim -->
+    <div class="mobile__scrim" data-mobile-scrim hidden></div>
+    <aside class="mobile" id="mobile-menu" aria-label="Menu" hidden>
+      <div class="mobile__inner">
+        {
+          institute ? (
+            <>
+              <a class="mobile__link" href={`/${institute.slug}`}>Overview</a>
+              <a class="mobile__link" href={`/${institute.slug}#approach`}>Approach</a>
+              {institute.status === 'live' && institute.liveUrl && (
+                <a class="mobile__link" href={institute.liveUrl}>Full site</a>
+              )}
+              <a class="mobile__link" href="/#institutes">All institutes</a>
+              <a class="btn btn--lg mobile__cta" href="/contact">Book a consult</a>
+            </>
+          ) : (
+            <>
+              <details class="mobile__acc">
+                <summary class="mobile__sum">Institutes</summary>
+                <div class="mobile__panel mobile__cols">
+                  {institutes.map((i) => (
+                    <a class="mobile__sublink" href={`/${i.slug}`}>
+                      <span class="mega__dot" style={`--dot: var(--accent-${i.accent})`} />
+                      {i.name}
+                    </a>
+                  ))}
+                </div>
+              </details>
+              <a class="mobile__link" href="/about">About</a>
+              <a class="mobile__link" href="/physicians">Physicians</a>
+              <a class="mobile__link" href="/locations">Locations</a>
+              <a class="mobile__link" href="/resources">Resources</a>
+              <a class="mobile__link" href="/careers">Careers</a>
+              <a class="btn btn--lg mobile__cta" href="/contact">Book a consult</a>
+            </>
+          )
+        }
+      </div>
     </aside>
 
     <main id="main">
@@ -175,45 +205,83 @@ const year = 2026;
 
     <footer class="footer">
       <div class="wrap">
-        <div class="footer__grid">
+        <div class="footer__top">
           <div>
-            <div class="brand">
-              <span class="brand__name">Restoration Medical</span>
-              <span class="brand__line">Refined by Medicine</span>
-            </div>
-            <p class="footer__fine" style="margin-top:1rem; max-width:34ch">
+            <p class="eyebrow">Restoration Medical</p>
+            <p class="footer__name">Refined by Medicine.</p>
+            <p class="footer__pitch">
               One institution, many worlds of care — six institutes under one clinical standard.
             </p>
+            <ul class="socials footer__socials">
+              {/* Placeholder social links — swap href for the real handles. */}
+              <li>
+                <a class="social" href="#" aria-label="Instagram">
+                  <svg class="social__svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6" />
+                    <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6" />
+                    <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a class="social" href="#" aria-label="Facebook">
+                  <svg class="social__svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M14 8.5V7c0-1 .4-1.5 1.5-1.5H17V3h-2.5C12 3 11 4.6 11 6.8V8.5H9V11h2v10h3V11h2.2l.4-2.5H14Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </li>
+            </ul>
           </div>
-          <div>
-            <h4>Institutes</h4>
-            {institutes.map((i) => <a class="footer__link" href={`/${i.slug}`}>{i.name}</a>)}
-          </div>
-          <div>
-            <h4>Institution</h4>
-            <a class="footer__link" href="/about">About</a>
-            <a class="footer__link" href="/physicians">Physicians</a>
-            <a class="footer__link" href="/locations">Locations</a>
-            <a class="footer__link" href="/resources">Resources</a>
-            <a class="footer__link" href="/careers">Careers</a>
-          </div>
-          <div>
-            <h4>Visit</h4>
-            <p class="footer__fine" style="margin-bottom:0.8rem">
-              Restoration Medical — Main Clinic<br />000 Example Avenue, Suite 200<br />Toronto, ON<br
-              />Mon–Fri 9–6 · Sat by appointment
-            </p>
-            <a class="footer__link" href="/contact">Book a consult</a>
+
+          <div class="footer__nav">
+            <div class="footer__col">
+              <p class="footer__heading">Institutes</p>
+              <ul>
+                {institutes.map((i) => (
+                  <li><a href={`/${i.slug}`}>{i.name}</a></li>
+                ))}
+              </ul>
+            </div>
+            <div class="footer__col">
+              <p class="footer__heading">Institution</p>
+              <ul>
+                <li><a href="/about">About</a></li>
+                <li><a href="/physicians">Physicians</a></li>
+                <li><a href="/locations">Locations</a></li>
+                <li><a href="/resources">Resources</a></li>
+                <li><a href="/careers">Careers</a></li>
+              </ul>
+            </div>
+            <div class="footer__col">
+              <p class="footer__heading">Get in touch</p>
+              <ul>
+                <li><a href="/contact">Book a consult</a></li>
+                <li><a href="/contact">Contact</a></li>
+              </ul>
+            </div>
           </div>
         </div>
+
+        <div class="footer__locations">
+          <div>
+            <p class="footer__loc-title">Main Clinic</p>
+            <p class="footer__meta">
+              000 Example Avenue, Suite 200<br />Toronto, ON<br />Mon–Fri 9–6 · Sat by appointment
+            </p>
+          </div>
+        </div>
+
         <div class="footer__legal">
-          <span class="footer__fine">© {year} Restoration Medical. Refined by Medicine.</span>
-          <span class="footer__fine">
-            <a class="footer__link" style="display:inline" href="/privacy">Privacy</a> ·
-            <a class="footer__link" style="display:inline" href="/terms">Terms</a> ·
-            <a class="footer__link" style="display:inline" href="/accessibility">Accessibility</a>
-          </span>
-          <span class="footer__fine">AODA · PHIPA · CPSO</span>
+          <p class="footer__fine">
+            © {year} Restoration Medical. Information on this site is general and is not medical
+            advice; treatment suitability is determined only after an in-person assessment. Results
+            vary. AODA · PHIPA · CPSO.
+          </p>
+          <p class="footer__legallinks">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/accessibility">Accessibility</a>
+          </p>
         </div>
       </div>
     </footer>
