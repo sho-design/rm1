@@ -385,12 +385,16 @@ img, svg, canvas {
 .nav__has-panel {
   position: static;
 }
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
 .nav__theme {
   display: grid;
   place-items: center;
   width: 36px;
   height: 36px;
-  margin-left: 0.2rem;
   background: none;
   border: 0;
   padding: 0;

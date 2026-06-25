@@ -23,9 +23,12 @@ const accentStyle = institute
   ? `--accent: var(--accent-${institute.accent}); --accent-text: var(--accent-${institute.accent}-text);`
   : undefined;
 
+// Brand lockup mirrors Infusion Therapy: on an institute page the institute
+// name is the headline and "at Restoration Medical" is the sub-line; on the
+// umbrella it's the institution itself.
 const brandHref = institute ? `/${institute.slug}` : '/';
-const brandName = 'Restoration Medical';
-const brandLine = institute ? institute.formalName : 'Refined by Medicine';
+const brandName = institute ? institute.name : 'Restoration Medical';
+const brandLine = institute ? 'at Restoration Medical' : 'Refined by Medicine';
 const year = 2026;
 ---
 
@@ -76,26 +79,31 @@ const year = 2026;
                 <a class="nav__link" href="/#institutes">All institutes</a>
               </>
             ) : (
-              <div class="nav__has-panel">
-                <button
-                  class="nav__link nav__trigger"
-                  data-dropdown
-                  aria-controls="mega-institutes"
-                  aria-expanded="false"
-                >
-                  Institutes
-                  <svg class="nav__chev" viewBox="0 0 12 8" fill="none" aria-hidden="true">
-                    <path d="M1 1.5 6 6l5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                  </svg>
-                </button>
-              </div>
+              <>
+                <div class="nav__has-panel">
+                  <button
+                    class="nav__link nav__trigger"
+                    data-dropdown
+                    aria-controls="mega-institutes"
+                    aria-expanded="false"
+                  >
+                    Institutes
+                    <svg class="nav__chev" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+                      <path d="M1 1.5 6 6l5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                  </button>
+                </div>
+                <a class="nav__link" href="/about">About</a>
+                <a class="nav__link" href="/physicians">Physicians</a>
+                <a class="nav__link" href="/locations">Locations</a>
+              </>
             )
           }
-          {!institute && <a class="nav__link" href="/about">About</a>}
-          {!institute && <a class="nav__link" href="/physicians">Physicians</a>}
-          {!institute && <a class="nav__link" href="/locations">Locations</a>}
+          <a class="btn nav__cta" href="/contact">Book a consult</a>
+        </nav>
 
-          <button class="nav__theme" data-theme-toggle aria-label="Toggle light or dark mode">
+        <div class="nav__actions">
+          <button class="nav__theme" data-theme-toggle type="button" aria-label="Toggle light or dark mode">
             <svg class="nav__theme-icon nav__theme-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
             </svg>
@@ -104,22 +112,19 @@ const year = 2026;
               <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
             </svg>
           </button>
-
-          <a class="nav__link nav__cta btn" href="/contact">Book a consult</a>
-        </nav>
-
-        <button
-          class="nav__burger"
-          data-burger
-          aria-label="Open menu"
-          aria-expanded="false"
-          aria-controls="mobile-menu"
-        >
-          <span class="nav__burger-lines">
-            <span class="nav__burger-bar"></span>
-            <span class="nav__burger-bar"></span>
-          </span>
-        </button>
+          <button
+            class="nav__burger"
+            data-burger
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <span class="nav__burger-lines">
+              <span class="nav__burger-bar"></span>
+              <span class="nav__burger-bar"></span>
+            </span>
+          </button>
+        </div>
       </div>
 
       {
