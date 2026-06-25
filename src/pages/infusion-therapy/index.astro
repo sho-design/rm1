@@ -1,0 +1,68 @@
+---
+import Base from '../../layouts/Base.astro';
+
+// Division landing page. The full Infusion Therapy site is being brought
+// in-house under this /infusion-therapy/ path; until the source is merged,
+// the deep experience lives at the link below.
+const liveSite = 'https://it-1-gold.vercel.app';
+
+const offerings = [
+  { name: 'IV Drips', line: 'Tailored infusions for hydration, recovery, and wellbeing.', accent: 'health' },
+  { name: 'The Injection Bar', line: 'Quick, targeted vitamin and nutrient shots.', accent: 'energy' },
+  { name: 'Iron Therapy', line: 'Physician-supervised IV iron for diagnosed deficiency.', accent: 'clinical' },
+  { name: 'Metabolic Program', line: 'A structured, monitored program — not a quick fix.', accent: 'body' },
+];
+---
+
+<Base
+  title="Infusion Therapy — Restoration Medical"
+  description="Physician-led infusion therapy at Restoration Medical. IV drips, the injection bar, iron therapy, and a metabolic program — screened first and delivered under clinical oversight."
+  accent="health"
+>
+  <section class="section-tight">
+    <div class="wrap">
+      <header class="page-header reveal">
+        <span class="eyebrow">Division · Infusion Therapy</span>
+        <h1 class="page-header__title ripple">Come as you are. <span class="it">Leave feeling restored.</span></h1>
+        <p class="page-header__lead">
+          IV drips, the injection bar, iron therapy, and a metabolic program — screened first and
+          delivered under physician oversight. Two paths, one standard of care.
+        </p>
+        <div class="hero__actions" style="display:flex; gap:0.8rem; flex-wrap:wrap; margin-top:1.8rem">
+          <a class="btn btn--lg" href="/contact">Book a consult</a>
+          <a class="btn btn--ghost btn--lg" href={liveSite}>Browse drips &amp; shots &rarr;</a>
+        </div>
+      </header>
+
+      <div class="grid grid--cards reveal" style="margin-top:2.5rem">
+        {
+          offerings.map((o) => (
+            <article
+              class="card"
+              style={`--accent: var(--accent-${o.accent}); --accent-text: var(--accent-${o.accent}-text)`}
+            >
+              <span class="card__family">Infusion</span>
+              <h3 class="card__name">{o.name}</h3>
+              <p class="card__essence">{o.line}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight fill">
+    <div class="wrap-narrow cta-band reveal">
+      <h2 class="cta-band__title">The full Infusion Therapy site</h2>
+      <p class="cta-band__body">
+        The ingredient library, by-concern guides, pricing &amp; memberships, safety &amp;
+        screening, and the Journal all live on the dedicated division site while we bring it
+        in-house under this address.
+      </p>
+      <div class="cta-band__actions">
+        <a class="btn btn--lg" href={liveSite}>Open Infusion Therapy &rarr;</a>
+        <a class="btn btn--ghost btn--lg" href="/contact">Book a consult</a>
+      </div>
+    </div>
+  </section>
+</Base>

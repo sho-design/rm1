@@ -1,0 +1,186 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroMotif from '../components/HeroMotif.astro';
+
+const divisions = [
+  {
+    family: 'Division',
+    name: 'Medical Aesthetics',
+    href: '/medical-aesthetics',
+    essence:
+      'Physician-led injectables, skin and resurfacing, energy and laser, body, and medical-grade skin health — subtle by design.',
+    accent: 'injectables',
+    accentText: 'injectables-text',
+    chips: ['Injectables', 'Skin & resurfacing', 'Energy & laser'],
+  },
+  {
+    family: 'Division',
+    name: 'Infusion Therapy',
+    href: '/infusion-therapy',
+    essence:
+      'IV drips, the injection bar, iron therapy, and a metabolic program — screened first and delivered under physician oversight.',
+    accent: 'health',
+    accentText: 'health-text',
+    chips: ['IV drips', 'Injection bar', 'Iron therapy'],
+  },
+];
+---
+
+<Base
+  title="Restoration Medical — Refined by Medicine"
+  description="A physician-led medical practice in Toronto. Medical Aesthetics and Infusion Therapy under one clinical standard — screened first, tailored to you, and held to the evidence."
+>
+  <section class="section hero">
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <span class="eyebrow">Restoration Medical</span>
+        <h1 class="hero__title ripple">One practice. <span class="it">Refined by medicine.</span></h1>
+        <p class="lede">
+          Two divisions, one clinical standard. We screen first, tailor to you, and treat with
+          restraint — honest about what each option can and cannot do.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--lg" href="/contact">Book a consult</a>
+          <a class="btn btn--ghost btn--lg" href="#divisions">Explore our services</a>
+        </div>
+        <p class="meta hero__tag">Medical Aesthetics · Infusion Therapy</p>
+      </div>
+      <div class="hero__motif">
+        <HeroMotif />
+      </div>
+    </div>
+  </section>
+
+  <section id="divisions" class="section-tight">
+    <div class="wrap">
+      <header class="section-head reveal">
+        <span class="eyebrow">Our divisions</span>
+        <h2>Two divisions, one standard of care.</h2>
+        <p class="lede">
+          Each service line keeps its own focus and its own clinicians — and every one of them
+          answers to the same physician oversight.
+        </p>
+      </header>
+      <div class="grid grid--cards reveal" style="margin-top:2.5rem">
+        {
+          divisions.map((d) => (
+            <a
+              class="card card--link"
+              href={d.href}
+              style={`--accent: var(--accent-${d.accent}); --accent-text: var(--accent-${d.accentText})`}
+            >
+              <span class="card__family">{d.family}</span>
+              <h3 class="card__name">{d.name}</h3>
+              <p class="card__essence">{d.essence}</p>
+              <div class="card__actives">
+                {d.chips.map((c) => (
+                  <span class="chip"><span class="chip__dot" />{c}</span>
+                ))}
+              </div>
+              <span class="card__go">Visit {d.name} &rarr;</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <figure class="pullquote reveal">
+    <div class="pullquote__rule"></div>
+    <blockquote class="pullquote__text ripple">One standard of care, across every service.</blockquote>
+    <figcaption class="pullquote__cite">The practice</figcaption>
+  </figure>
+
+  <section class="section-tight fill">
+    <div class="wrap trust reveal">
+      <div>
+        <span class="eyebrow">The clinic, not the counter</span>
+        <h2>Trust is a design feature.</h2>
+        <p class="lede">
+          Every option is reviewed by a physician and delivered by clinicians. We show our evidence
+          rather than imply it — and we keep a genuine medical anchor across both divisions.
+        </p>
+        <p style="margin-top:1.4rem; display:flex; gap:1.4rem; flex-wrap:wrap; align-items:center">
+          <span class="evidence evidence--established" tabindex="0" role="note" aria-label="Established evidence">
+            <span class="evidence__dot" aria-hidden="true"></span>Established
+            <span class="evidence__tip" role="tooltip">
+              Established — supported by consistent, higher-quality clinical evidence and long
+              clinical use.
+            </span>
+          </span>
+          <span class="evidence evidence--emerging" tabindex="0" role="note" aria-label="Emerging evidence">
+            <span class="evidence__dot" aria-hidden="true"></span>Emerging
+            <span class="evidence__tip" role="tooltip">
+              Emerging — early or mixed evidence. Promising, but we set expectations honestly and
+              results vary.
+            </span>
+          </span>
+        </p>
+        <p class="meta" style="margin-top:1rem">Hover the tags — every benefit claim is rated and honest.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap-narrow cta-band reveal">
+      <h2 class="cta-band__title">Start with a consult.</h2>
+      <p class="cta-band__body">
+        Not sure which division fits? Begin with one conversation. We screen first, then point you
+        to the right service — never the other way round.
+      </p>
+      <div class="cta-band__actions">
+        <a class="btn btn--lg" href="/contact">Book a consult</a>
+        <a class="btn btn--ghost btn--lg" href="/practice">How we practise</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: var(--space-l);
+      align-items: center;
+    }
+    .hero__title {
+      font-size: var(--step-5);
+      margin: 0.4rem 0 1.2rem;
+    }
+    .hero__actions {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-top: 1.8rem;
+    }
+    .hero__tag {
+      margin-top: 1.6rem;
+    }
+    .section-head h2 {
+      font-size: var(--step-3);
+    }
+    .section-head .lede {
+      margin-top: 0.6rem;
+    }
+    .trust {
+      max-width: var(--measure);
+    }
+    .card--link {
+      cursor: pointer;
+    }
+    .card__go {
+      font-family: var(--mono);
+      font-size: var(--step--1);
+      letter-spacing: 0.04em;
+      color: var(--accent-text);
+      margin-top: 1.2rem;
+    }
+    @media (max-width: 900px) {
+      .hero__grid {
+        grid-template-columns: 1fr;
+      }
+      .hero__motif {
+        order: -1;
+      }
+    }
+  </style>
+</Base>

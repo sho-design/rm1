@@ -1,0 +1,68 @@
+---
+import Base from '../../layouts/Base.astro';
+
+// Division landing page. The full Medical Aesthetics site is being brought
+// in-house under this /medical-aesthetics/ path; until the source is merged,
+// the deep experience lives at the link below.
+const liveSite = 'https://ma1-indol.vercel.app';
+
+const families = [
+  { name: 'Injectables', line: 'Expression softening and subtle contour — never overfilled.', accent: 'injectables' },
+  { name: 'Skin & Resurfacing', line: 'Peels and microneedling to refine tone and texture.', accent: 'skin' },
+  { name: 'Energy & Laser', line: 'IPL, RF microneedling, and resurfacing for clarity and lift.', accent: 'energy' },
+  { name: 'Body & Contour', line: 'Measured, evidence-led body treatments.', accent: 'body' },
+  { name: 'Skin Health', line: 'Medical-grade actives and a maintainable routine.', accent: 'health' },
+];
+---
+
+<Base
+  title="Medical Aesthetics — Restoration Medical"
+  description="Physician-led medical aesthetics at Restoration Medical. Injectables, skin and resurfacing, energy and laser, body, and medical-grade skin health — screened first and tailored to you."
+  accent="injectables"
+>
+  <section class="section-tight">
+    <div class="wrap">
+      <header class="page-header reveal">
+        <span class="eyebrow">Division · Medical Aesthetics</span>
+        <h1 class="page-header__title ripple">Look like yourself, <span class="it">refined.</span></h1>
+        <p class="page-header__lead">
+          Physician-led medical aesthetics. We screen first, tailor to you, and treat with restraint
+          — subtle by design, honest about what each option can and cannot do.
+        </p>
+        <div class="hero__actions" style="display:flex; gap:0.8rem; flex-wrap:wrap; margin-top:1.8rem">
+          <a class="btn btn--lg" href="/contact">Book a consult</a>
+          <a class="btn btn--ghost btn--lg" href={liveSite}>Explore all treatments &rarr;</a>
+        </div>
+      </header>
+
+      <div class="grid grid--cards reveal" style="margin-top:2.5rem">
+        {
+          families.map((f) => (
+            <article
+              class="card"
+              style={`--accent: var(--accent-${f.accent}); --accent-text: var(--accent-${f.accent}-text)`}
+            >
+              <span class="card__family">Treatments</span>
+              <h3 class="card__name">{f.name}</h3>
+              <p class="card__essence">{f.line}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight fill">
+    <div class="wrap-narrow cta-band reveal">
+      <h2 class="cta-band__title">The full Medical Aesthetics site</h2>
+      <p class="cta-band__body">
+        Treatments, by-concern guides, modalities, memberships, and candidacy &amp; safety all live
+        on the dedicated division site while we bring it in-house under this address.
+      </p>
+      <div class="cta-band__actions">
+        <a class="btn btn--lg" href={liveSite}>Open Medical Aesthetics &rarr;</a>
+        <a class="btn btn--ghost btn--lg" href="/contact">Book a consult</a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Book a consult — Restoration Medical"
+  description="Book a consult at Restoration Medical. We screen first and point you to the right division — medical aesthetics or infusion therapy."
+>
+  <section class="section-tight">
+    <div class="wrap">
+      <header class="page-header reveal">
+        <span class="eyebrow">Contact</span>
+        <h1 class="page-header__title ripple">Start with a consult.</h1>
+        <p class="page-header__lead">
+          Tell us a little about what you’re after. We screen first and point you to the right
+          division — never the other way round.
+        </p>
+      </header>
+
+      <div class="contact__grid reveal">
+        <form class="contact__form" name="consult" method="POST" data-netlify="true">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone (optional)</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" />
+          </div>
+          <div class="field">
+            <label for="interest">I’m interested in</label>
+            <select id="interest" name="interest">
+              <option>Not sure yet — help me decide</option>
+              <option>Medical Aesthetics</option>
+              <option>Infusion Therapy</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="message">What would you like to achieve?</label>
+            <textarea id="message" name="message"></textarea>
+          </div>
+          <button class="btn btn--lg" type="submit">Request a consult</button>
+          <p class="form__confirm" style="margin-top:1.2rem">
+            We’ll reply within one business day to arrange a time. This form does not collect medical
+            information — please don’t include sensitive health details here.
+          </p>
+        </form>
+
+        <aside class="contact__aside">
+          <h3 class="card__name" style="font-size:var(--step-2)">Visit</h3>
+          <p class="footer__fine" style="font-size:var(--step--1); line-height:1.7">
+            Restoration Medical — Main Clinic<br />000 Example Avenue, Suite 200<br />Toronto, ON<br
+            />Mon–Fri 9–6 · Sat by appointment
+          </p>
+          <p class="meta" style="margin-top:1.5rem">Divisions</p>
+          <p style="display:flex; flex-direction:column; gap:0.4rem">
+            <a class="nav__link" href="/medical-aesthetics">Medical Aesthetics &rarr;</a>
+            <a class="nav__link" href="/infusion-therapy">Infusion Therapy &rarr;</a>
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .contact__grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: var(--space-l);
+      margin-top: 2.5rem;
+      align-items: start;
+    }
+    .contact__aside {
+      border-left: 1px solid var(--line);
+      padding-left: var(--space-m);
+    }
+    @media (max-width: 760px) {
+      .contact__grid {
+        grid-template-columns: 1fr;
+      }
+      .contact__aside {
+        border-left: 0;
+        padding-left: 0;
+      }
+    }
+  </style>
+</Base>

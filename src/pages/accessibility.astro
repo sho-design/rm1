@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Accessibility — Restoration Medical"
+  description="Restoration Medical's commitment to an accessible website and practice."
+>
+  <section class="section-tight">
+    <div class="wrap-narrow prose reveal">
+      <span class="eyebrow">Legal</span>
+      <h1 class="page-header__title">Accessibility</h1>
+      <p class="footer__fine">Last updated: June 2026 · Placeholder — review before launch.</p>
+
+      <h2>Our commitment</h2>
+      <p>
+        Restoration Medical is committed to providing an accessible experience for everyone, in line
+        with the Accessibility for Ontarians with Disabilities Act (AODA). We aim to meet WCAG 2.1
+        Level AA across this website.
+      </p>
+
+      <h2>What we’ve built in</h2>
+      <p>
+        Keyboard-navigable menus, visible focus styles, a skip-to-content link, reduced-motion
+        support, semantic structure, and colour contrast checked against the design system.
+      </p>
+
+      <h2>Feedback</h2>
+      <p>
+        If you encounter a barrier on this site or need information in an alternative format, please
+        reach out via our <a href="/contact">contact page</a> and we’ll respond promptly.
+      </p>
+    </div>
+  </section>
+
+  <style>
+    .prose h2 {
+      font-size: var(--step-2);
+      margin-top: 2rem;
+    }
+    .prose p {
+      color: var(--graphite);
+      max-width: var(--measure);
+    }
+  </style>
+</Base>
