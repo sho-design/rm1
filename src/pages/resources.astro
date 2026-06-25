@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import { institutes } from '../data/institutes';
+---
+
+<Base
+  title="Resources — Restoration Medical"
+  description="Patient education and resources across Restoration Medical's institutes — written and reviewed to one clinical standard."
+>
+  <section class="section-tight">
+    <div class="wrap">
+      <header class="page-header reveal">
+        <span class="eyebrow">Resources</span>
+        <h1 class="page-header__title ripple">Learn before you decide.</h1>
+        <p class="page-header__lead">
+          Patient education, guides, and journals live within each institute — written plainly and
+          reviewed against the same evidence standard we hold our care to.
+        </p>
+      </header>
+
+      <div class="grid grid--cards reveal" style="margin-top:2rem">
+        {
+          institutes.map((i) => (
+            <a
+              class="card card--link"
+              href={`/${i.slug}`}
+              style={`--accent: var(--accent-${i.accent}); --accent-text: var(--accent-${i.accent}-text)`}
+            >
+              <span class="card__family">Institute</span>
+              <h3 class="card__name">{i.name}</h3>
+              <p class="card__essence">{i.essence}</p>
+              <span class="card__go">Resources &rarr;</span>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="advisory reveal" style="margin-top:2.5rem">
+        <span class="advisory__badge" aria-hidden="true">i</span>
+        <p class="advisory__body">
+          <strong>Growing library.</strong> Each institute’s blog, guides, FAQs, and videos will
+          surface here as they’re published.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .card--link {
+      cursor: pointer;
+    }
+    .card__go {
+      font-family: var(--mono);
+      font-size: var(--step--1);
+      letter-spacing: 0.04em;
+      color: var(--accent-text);
+      margin-top: 1.2rem;
+    }
+  </style>
+</Base>

@@ -1,51 +1,74 @@
 # Restoration Medical
 
-The parent practice site for **Restoration Medical** — *Refined by Medicine.*
+The parent site for **Restoration Medical** — *Refined by Medicine.*
 
-It is built to consolidate SEO authority onto a single domain: the two existing
-division sites live **within** this site as subdirectory route trees rather than
-on separate domains.
+## The model: one institution, many worlds (the "Apple Method")
 
-- `/medical-aesthetics` → Medical Aesthetics division
-- `/infusion-therapy` → Infusion Therapy division
+One domain, one infrastructure — but each **institute** feels like its own
+world (its own accent, hero, identity, content, team, and booking funnel),
+the way `apple.com` makes Mac, iPhone, and iPad feel like separate sites under
+one roof. Everything lives under `restorationmedical.ca` so all SEO authority
+consolidates onto a single domain.
+
+```
+Restoration Medical (umbrella)
+├── /                      Home — "choose your journey"
+├── /about                 The institution & its standard
+├── /physicians            Roster across all institutes
+├── /locations
+├── /resources
+├── /careers
+├── /contact               Consult request
+│
+├── /family-medicine       Institute of Family Medicine     (planned)
+├── /pain-medicine         Institute of Pain Medicine        (planned)
+├── /medical-aesthetics    Institute of Medical Aesthetics   (live → merge pending)
+├── /rehabilitation        Institute of Rehabilitation       (planned)
+├── /performance-medicine  Institute of Performance Medicine (planned)
+└── /infusion-therapy      Institute of Infusion Therapy     (live → merge pending)
+```
+
+Each institute is built to grow into a full ~40–80 page world (services,
+blog, education, FAQs, videos, testimonials, booking funnel).
+
+## How the "different world" effect works
+
+`src/layouts/Base.astro` takes an optional `institute` prop:
+
+- **No prop** → umbrella chrome (Restoration Medical brand, "Institutes"
+  mega-menu, house navigation).
+- **With prop** → that institute's world: its accent token themes the whole
+  page, the nav shows the institute identity and its own links, and a link
+  leads back up to the institution. The global footer stays, tying every
+  institute back to one practice.
+
+All institute metadata (name, accent, hero copy, pillars, status) lives in
+`src/data/institutes.ts`, so the home grid, nav, footer, and each landing page
+stay in sync from one source.
 
 ## Stack
 
 - [Astro](https://astro.build) (static output), deployed on Vercel
 - Shared design system in `src/styles/global.css` — identical tokens, type
   (Fraunces / Inter Tight / Spline Sans Mono), and components used across all
-  three sites, so the whole property reads as one practice.
+  the sites, so the whole property reads as one practice.
 - Shared client behaviour in `src/scripts/site.ts` (reveal-on-scroll, droplet
   cursor, ripple text, mega-menu, mobile drawer) and the hero canvas in
   `src/components/HeroMotif.astro`.
+- `@astrojs/sitemap` + `robots.txt` for SEO.
 
-## Structure
+## Status & next step: bringing the live institutes in-house
 
-```
-src/
-  layouts/Base.astro        # head, nav + mega-menu, mobile drawer, footer, grain
-  components/HeroMotif.astro # animated hero orb
-  pages/
-    index.astro              # homepage
-    practice.astro           # how we practise / clinical standard
-    team.astro               # roster (placeholder bios)
-    contact.astro            # consult request form
-    privacy / terms / accessibility
-    404.astro
-    medical-aesthetics/index.astro   # division landing (links to full site)
-    infusion-therapy/index.astro     # division landing (links to full site)
-```
+Medical Aesthetics and Infusion Therapy already exist as standalone sites
+(`sho-design/ma1`, `sho-design/IT1`). Their landing pages here currently link
+out to those live deployments. To finish the consolidation, the full page
+trees from those repos need to be merged into `src/pages/medical-aesthetics/`
+and `src/pages/infusion-therapy/`, with internal links rebased to the
+subdirectory prefix and canonicals added.
 
-## Status & next step: bringing the divisions in-house
-
-The division landing pages currently link out to the live division
-deployments (`ma1` and `IT1`). To complete the consolidation, the full page
-trees from those two repos need to be merged into `src/pages/medical-aesthetics/`
-and `src/pages/infusion-therapy/`, with their internal links rebased to the
-subdirectory prefix.
-
-That merge is pending source access to `sho-design/ma1` and `sho-design/IT1`
-(this session is scoped to `sho-design/rm1` only).
+That merge is **pending source access** to `sho-design/ma1` and
+`sho-design/IT1` — this session is scoped to `sho-design/rm1` only. Re-scope a
+session to include all three repos to complete it.
 
 ## Develop
 

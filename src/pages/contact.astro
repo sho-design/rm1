@@ -1,10 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
+import { institutes } from '../data/institutes';
 ---
 
 <Base
   title="Book a consult — Restoration Medical"
-  description="Book a consult at Restoration Medical. We screen first and point you to the right division — medical aesthetics or infusion therapy."
+  description="Book a consult at Restoration Medical. We screen first and point you to the right institute."
 >
   <section class="section-tight">
     <div class="wrap">
@@ -35,8 +36,7 @@ import Base from '../layouts/Base.astro';
             <label for="interest">I’m interested in</label>
             <select id="interest" name="interest">
               <option>Not sure yet — help me decide</option>
-              <option>Medical Aesthetics</option>
-              <option>Infusion Therapy</option>
+              {institutes.map((i) => <option>{i.name}</option>)}
             </select>
           </div>
           <div class="field">
@@ -56,10 +56,9 @@ import Base from '../layouts/Base.astro';
             Restoration Medical — Main Clinic<br />000 Example Avenue, Suite 200<br />Toronto, ON<br
             />Mon–Fri 9–6 · Sat by appointment
           </p>
-          <p class="meta" style="margin-top:1.5rem">Divisions</p>
+          <p class="meta" style="margin-top:1.5rem">Institutes</p>
           <p style="display:flex; flex-direction:column; gap:0.4rem">
-            <a class="nav__link" href="/medical-aesthetics">Medical Aesthetics &rarr;</a>
-            <a class="nav__link" href="/infusion-therapy">Infusion Therapy &rarr;</a>
+            {institutes.map((i) => <a class="nav__link" href={`/${i.slug}`}>{i.name} &rarr;</a>)}
           </p>
         </aside>
       </div>

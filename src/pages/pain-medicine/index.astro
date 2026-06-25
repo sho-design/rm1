@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import InstituteLanding from '../../components/InstituteLanding.astro';
+import { instituteBySlug } from '../../data/institutes';
+
+const institute = instituteBySlug('pain-medicine')!;
+---
+
+<Base
+  title="Pain Medicine — Restoration Medical"
+  description="The Institute of Pain Medicine at Restoration Medical. A measured, multidisciplinary path through persistent pain — diagnosis first, then a considered plan."
+  institute={institute}
+>
+  <InstituteLanding institute={institute} />
+</Base>

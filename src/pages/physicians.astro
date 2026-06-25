@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Placeholder roster — replace names, credentials, photos, and bios with the
+// real team. Each physician can later carry an institute tag.
+const physicians = [
+  {
+    name: 'Medical Director',
+    role: 'Physician · Institution-wide oversight',
+    bio: 'Reviews and finalises care across every institute, with a clinical anchor in dermatology and scar revision.',
+  },
+  {
+    name: 'Lead, Family Medicine',
+    role: 'Institute of Family Medicine',
+    bio: 'Continuous primary care — prevention, chronic-condition management, and whole-person follow-through.',
+  },
+  {
+    name: 'Lead, Pain Medicine',
+    role: 'Institute of Pain Medicine',
+    bio: 'Diagnosis-first, multidisciplinary management of persistent pain.',
+  },
+  {
+    name: 'Lead Aesthetic Clinician',
+    role: 'Institute of Medical Aesthetics',
+    bio: 'Injectables, resurfacing, and energy-based treatments with a conservative, results-honest approach.',
+  },
+  {
+    name: 'Lead, Rehabilitation',
+    role: 'Institute of Rehabilitation',
+    bio: 'Physiotherapy and structured recovery programs, tracked against real milestones.',
+  },
+  {
+    name: 'Lead Infusion Nurse',
+    role: 'Institute of Infusion Therapy',
+    bio: 'Runs the infusion suite and injection bar, with screening and monitoring at the centre of every visit.',
+  },
+];
+---
+
+<Base
+  title="Physicians — Restoration Medical"
+  description="The physicians and clinicians behind Restoration Medical's institutes, all overseen to one clinical standard."
+>
+  <section class="section-tight">
+    <div class="wrap">
+      <header class="page-header reveal">
+        <span class="eyebrow">Our physicians</span>
+        <h1 class="page-header__title ripple">The people who keep the standard.</h1>
+        <p class="page-header__lead">
+          A small, accountable team. Care is delivered by clinicians and overseen by a physician —
+          the same way across every institute.
+        </p>
+      </header>
+
+      <div class="grid grid--cards reveal" style="margin-top:2rem">
+        {
+          physicians.map((member) => (
+            <article class="card">
+              <span class="card__family">{member.role}</span>
+              <h3 class="card__name">{member.name}</h3>
+              <p class="card__essence">{member.bio}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="advisory reveal" style="margin-top:2.5rem">
+        <span class="advisory__badge" aria-hidden="true">i</span>
+        <p class="advisory__body">
+          <strong>Placeholder roster.</strong> Send through real names, credentials, photos, and
+          bios and we’ll drop them straight in.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

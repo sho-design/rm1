@@ -1,0 +1,168 @@
+---
+import HeroMotif from './HeroMotif.astro';
+import type { Institute } from '../data/institutes';
+
+interface Props {
+  institute: Institute;
+}
+
+const { institute } = Astro.props;
+---
+
+<section class="section hero">
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <span class="eyebrow">{institute.formalName}</span>
+      <h1 class="hero__title ripple">
+        {institute.heroLead} <span class="it">{institute.heroEmphasis}</span>
+      </h1>
+      <p class="lede">{institute.lead}</p>
+      <div class="hero__actions">
+        <a class="btn btn--lg" href="/contact">Book a consult</a>
+        {
+          institute.status === 'live' && institute.liveUrl ? (
+            <a class="btn btn--ghost btn--lg" href={institute.liveUrl}>Explore the full site &rarr;</a>
+          ) : (
+            <a class="btn btn--ghost btn--lg" href="#approach">How we practise</a>
+          )
+        }
+      </div>
+      <p class="meta hero__tag">An institute of Restoration Medical</p>
+    </div>
+    <div class="hero__motif">
+      <HeroMotif />
+    </div>
+  </div>
+</section>
+
+<section id="overview" class="section-tight">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <span class="eyebrow">What we do</span>
+      <h2>{institute.essence}</h2>
+    </header>
+    <div class="grid grid--cards reveal" style="margin-top:2.5rem">
+      {
+        institute.pillars.map((p) => (
+          <article class="card">
+            <span class="card__family">{institute.name}</span>
+            <h3 class="card__name">{p.name}</h3>
+            <p class="card__essence">{p.line}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<figure class="pullquote reveal">
+  <div class="pullquote__rule"></div>
+  <blockquote class="pullquote__text ripple">Results vary — and we say so.</blockquote>
+  <figcaption class="pullquote__cite">One standard, every institute</figcaption>
+</figure>
+
+<section id="approach" class="section-tight fill">
+  <div class="wrap trust reveal">
+    <div>
+      <span class="eyebrow">How we practise</span>
+      <h2>Trust is a design feature.</h2>
+      <p class="lede">
+        {institute.name} is one institute of Restoration Medical, and it answers to the same
+        clinical standard as every other: screened first, physician-overseen, and honest about what
+        each option can and cannot do.
+      </p>
+      <p style="margin-top:1.4rem; display:flex; gap:1.4rem; flex-wrap:wrap; align-items:center">
+        <span class="evidence evidence--established" tabindex="0" role="note" aria-label="Established evidence">
+          <span class="evidence__dot" aria-hidden="true"></span>Established
+          <span class="evidence__tip" role="tooltip">
+            Established — supported by consistent, higher-quality clinical evidence and long clinical
+            use.
+          </span>
+        </span>
+        <span class="evidence evidence--emerging" tabindex="0" role="note" aria-label="Emerging evidence">
+          <span class="evidence__dot" aria-hidden="true"></span>Emerging
+          <span class="evidence__tip" role="tooltip">
+            Emerging — early or mixed evidence. Promising, but we set expectations honestly and
+            results vary.
+          </span>
+        </span>
+      </p>
+    </div>
+  </div>
+</section>
+
+{
+  institute.status === 'live' && institute.liveUrl && (
+    <section class="section-tight">
+      <div class="wrap-narrow cta-band reveal">
+        <h2 class="cta-band__title">The full {institute.name} site</h2>
+        <p class="cta-band__body">
+          The complete {institute.name.toLowerCase()} experience — every service, guide, and booking
+          flow — lives here while we bring it in-house under this address.
+        </p>
+        <div class="cta-band__actions">
+          <a class="btn btn--lg" href={institute.liveUrl}>
+            Open {institute.name} &rarr;
+          </a>
+          <a class="btn btn--ghost btn--lg" href="/contact">
+            Book a consult
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+{
+  institute.status === 'planned' && (
+    <section class="section-tight">
+      <div class="wrap-narrow cta-band reveal">
+        <h2 class="cta-band__title">Now welcoming patients</h2>
+        <p class="cta-band__body">
+          The {institute.name} world is growing — full services, team, and patient resources are on
+          the way. To start now, book a consult and we'll point you to the right care.
+        </p>
+        <div class="cta-band__actions">
+          <a class="btn btn--lg" href="/contact">Book a consult</a>
+          <a class="btn btn--ghost btn--lg" href="/#institutes">All institutes</a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: var(--space-l);
+    align-items: center;
+  }
+  .hero__title {
+    font-size: var(--step-5);
+    margin: 0.4rem 0 1.2rem;
+  }
+  .hero__actions {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: 1.8rem;
+  }
+  .hero__tag {
+    margin-top: 1.6rem;
+  }
+  .section-head h2 {
+    font-size: var(--step-3);
+  }
+  .trust {
+    max-width: var(--measure);
+  }
+  @media (max-width: 900px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+    }
+    .hero__motif {
+      order: -1;
+    }
+  }
+</style>

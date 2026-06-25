@@ -1,21 +1,26 @@
 ---
 import '../styles/global.css';
+import { institutes, type Institute } from '../data/institutes';
 
 interface Props {
   title?: string;
   description?: string;
-  /** Sets the page accent (one of the design-system accent tokens). */
-  accent?: 'injectables' | 'skin' | 'energy' | 'body' | 'health' | 'clinical';
+  /**
+   * When set, the page wears that institute's world: its accent, its nav
+   * identity, and a link back up to the institution. When omitted, the page
+   * uses the umbrella (Restoration Medical) chrome.
+   */
+  institute?: Institute;
 }
 
 const {
   title = 'Restoration Medical — Refined by Medicine',
-  description = 'A physician-led medical practice. Medical Aesthetics and Infusion Therapy under one clinical standard — screened first, tailored to you, and held to the evidence.',
-  accent,
+  description = 'One institution, many worlds of care. Restoration Medical brings six physician-led institutes under one roof and one clinical standard.',
+  institute,
 } = Astro.props;
 
-const accentStyle = accent
-  ? `--accent: var(--accent-${accent}); --accent-text: var(--accent-${accent}-text);`
+const accentStyle = institute
+  ? `--accent: var(--accent-${institute.accent}); --accent-text: var(--accent-${institute.accent}-text);`
   : undefined;
 
 const year = 2026;
@@ -39,70 +44,129 @@ const year = 2026;
 
     <header class="nav">
       <div class="wrap nav__inner">
-        <a class="brand" href="/" aria-label="Restoration Medical — Refined by Medicine">
-          <span class="brand__name">Restoration Medical</span>
-          <span class="brand__line">Refined by Medicine</span>
-        </a>
+        {
+          institute ? (
+            <a class="brand" href={`/${institute.slug}`} aria-label={`Restoration Medical — ${institute.formalName}`}>
+              <span class="brand__name">Restoration Medical</span>
+              <span class="brand__line">{institute.formalName}</span>
+            </a>
+          ) : (
+            <a class="brand" href="/" aria-label="Restoration Medical — Refined by Medicine">
+              <span class="brand__name">Restoration Medical</span>
+              <span class="brand__line">Refined by Medicine</span>
+            </a>
+          )
+        }
+
         <nav aria-label="Primary">
-          <ul class="nav__links">
-            <li>
-              <button
-                class="nav__trigger"
-                aria-expanded="false"
-                aria-controls="mega-services"
-                data-mega="mega-services"
-              >
-                Services <span class="nav__caret" aria-hidden="true"></span>
-              </button>
-            </li>
-            <li><a class="nav__link" href="/practice">The Practice</a></li>
-            <li><a class="nav__link" href="/team">Our Team</a></li>
-            <li><a class="nav__link" href="/contact">Contact</a></li>
-            <li><a class="btn btn--ghost" href="/contact">Book a consult</a></li>
-          </ul>
+          {
+            institute ? (
+              <ul class="nav__links">
+                <li><a class="nav__link" href={`/${institute.slug}`}>Overview</a></li>
+                <li><a class="nav__link" href={`/${institute.slug}#approach`}>Approach</a></li>
+                {institute.status === 'live' && institute.liveUrl && (
+                  <li><a class="nav__link" href={institute.liveUrl}>Full site</a></li>
+                )}
+                <li><a class="nav__link" href="/#institutes">All institutes</a></li>
+                <li><a class="btn btn--ghost" href="/contact">Book a consult</a></li>
+              </ul>
+            ) : (
+              <ul class="nav__links">
+                <li>
+                  <button
+                    class="nav__trigger"
+                    aria-expanded="false"
+                    aria-controls="mega-institutes"
+                    data-mega="mega-institutes"
+                  >
+                    Institutes <span class="nav__caret" aria-hidden="true" />
+                  </button>
+                </li>
+                <li><a class="nav__link" href="/about">About</a></li>
+                <li><a class="nav__link" href="/physicians">Physicians</a></li>
+                <li><a class="nav__link" href="/locations">Locations</a></li>
+                <li><a class="nav__link" href="/contact">Contact</a></li>
+                <li><a class="btn btn--ghost" href="/contact">Book a consult</a></li>
+              </ul>
+            )
+          }
         </nav>
+
         <button class="nav__burger" aria-label="Open menu" aria-expanded="false" data-drawer-open>
-          <span></span><span></span><span></span>
+          <span /><span /><span />
         </button>
       </div>
 
-      <!-- Mega-menu: divisions + where to start -->
-      <div class="mega" id="mega-services" role="region" aria-label="Services">
-        <div class="wrap mega__grid">
-          <div class="mega__col">
-            <h4>Divisions</h4>
-            <a class="mega__item" href="/medical-aesthetics" style="--accent: var(--accent-injectables)">
-              <span class="mega__dot"></span>Medical Aesthetics
-            </a>
-            <a class="mega__item" href="/infusion-therapy" style="--accent: var(--accent-health)">
-              <span class="mega__dot"></span>Infusion Therapy
-            </a>
+      {
+        !institute && (
+          <div class="mega" id="mega-institutes" role="region" aria-label="Institutes">
+            <div class="wrap mega__grid">
+              <div class="mega__col">
+                <h4>Institutes</h4>
+                {institutes.slice(0, 3).map((i) => (
+                  <a class="mega__item" href={`/${i.slug}`} style={`--accent: var(--accent-${i.accent})`}>
+                    <span class="mega__dot" />
+                    {i.name}
+                  </a>
+                ))}
+              </div>
+              <div class="mega__col">
+                <h4>&nbsp;</h4>
+                {institutes.slice(3).map((i) => (
+                  <a class="mega__item" href={`/${i.slug}`} style={`--accent: var(--accent-${i.accent})`}>
+                    <span class="mega__dot" />
+                    {i.name}
+                  </a>
+                ))}
+              </div>
+              <div class="mega__col">
+                <h4>The institution</h4>
+                <a class="mega__item" href="/about">About</a>
+                <a class="mega__item" href="/physicians">Physicians</a>
+                <a class="mega__item" href="/locations">Locations</a>
+              </div>
+              <div class="mega__col">
+                <h4>Start here</h4>
+                <a class="mega__item" href="/#institutes">Choose your journey</a>
+                <a class="mega__item" href="/resources">Resources</a>
+                <a class="mega__item" href="/careers">Careers</a>
+                <a class="mega__item" href="/contact">Book a consult</a>
+              </div>
+            </div>
           </div>
-          <div class="mega__col">
-            <h4>The practice</h4>
-            <a class="mega__item" href="/practice">How we practise</a>
-            <a class="mega__item" href="/team">Meet the team</a>
-            <a class="mega__item" href="/practice#standard">Our clinical standard</a>
-          </div>
-          <div class="mega__col">
-            <h4>Start here</h4>
-            <a class="mega__item" href="/contact">Book a consult</a>
-            <a class="mega__item" href="/medical-aesthetics">Aesthetics overview</a>
-            <a class="mega__item" href="/infusion-therapy">Infusion overview</a>
-          </div>
-        </div>
-      </div>
+        )
+      }
     </header>
 
     <!-- Mobile drawer + scrim -->
     <div class="scrim" data-drawer-close></div>
     <aside class="drawer" aria-label="Menu">
-      <a href="/medical-aesthetics">Medical Aesthetics</a>
-      <a href="/infusion-therapy">Infusion Therapy</a>
-      <a href="/practice">The Practice</a>
-      <a href="/team">Our Team</a>
-      <a href="/contact">Contact</a>
-      <a class="btn" href="/contact" style="margin-top:1.2rem">Book a consult</a>
+      {
+        institute ? (
+          <>
+            <a href={`/${institute.slug}`}>Overview</a>
+            <a href={`/${institute.slug}#approach`}>Approach</a>
+            {institute.status === 'live' && institute.liveUrl && <a href={institute.liveUrl}>Full site</a>}
+            <a href="/#institutes">All institutes</a>
+            <a class="btn" href="/contact" style="margin-top:1.2rem">Book a consult</a>
+          </>
+        ) : (
+          <>
+            <a href="/about">About</a>
+            <a href="/physicians">Physicians</a>
+            <a href="/locations">Locations</a>
+            <a href="/resources">Resources</a>
+            <a href="/careers">Careers</a>
+            <details>
+              <summary>Institutes</summary>
+              {institutes.map((i) => (
+                <a href={`/${i.slug}`}>{i.name}</a>
+              ))}
+            </details>
+            <a class="btn" href="/contact" style="margin-top:1.2rem">Book a consult</a>
+          </>
+        )
+      }
     </aside>
 
     <main id="main">
@@ -118,19 +182,20 @@ const year = 2026;
               <span class="brand__line">Refined by Medicine</span>
             </div>
             <p class="footer__fine" style="margin-top:1rem; max-width:34ch">
-              One practice, one clinical standard — across medical aesthetics and infusion therapy.
+              One institution, many worlds of care — six institutes under one clinical standard.
             </p>
           </div>
           <div>
-            <h4>Divisions</h4>
-            <a class="footer__link" href="/medical-aesthetics">Medical Aesthetics</a>
-            <a class="footer__link" href="/infusion-therapy">Infusion Therapy</a>
+            <h4>Institutes</h4>
+            {institutes.map((i) => <a class="footer__link" href={`/${i.slug}`}>{i.name}</a>)}
           </div>
           <div>
-            <h4>Practice</h4>
-            <a class="footer__link" href="/practice">The Practice</a>
-            <a class="footer__link" href="/team">Our Team</a>
-            <a class="footer__link" href="/contact">Contact</a>
+            <h4>Institution</h4>
+            <a class="footer__link" href="/about">About</a>
+            <a class="footer__link" href="/physicians">Physicians</a>
+            <a class="footer__link" href="/locations">Locations</a>
+            <a class="footer__link" href="/resources">Resources</a>
+            <a class="footer__link" href="/careers">Careers</a>
           </div>
           <div>
             <h4>Visit</h4>

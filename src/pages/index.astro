@@ -1,49 +1,27 @@
 ---
 import Base from '../layouts/Base.astro';
 import HeroMotif from '../components/HeroMotif.astro';
-
-const divisions = [
-  {
-    family: 'Division',
-    name: 'Medical Aesthetics',
-    href: '/medical-aesthetics',
-    essence:
-      'Physician-led injectables, skin and resurfacing, energy and laser, body, and medical-grade skin health — subtle by design.',
-    accent: 'injectables',
-    accentText: 'injectables-text',
-    chips: ['Injectables', 'Skin & resurfacing', 'Energy & laser'],
-  },
-  {
-    family: 'Division',
-    name: 'Infusion Therapy',
-    href: '/infusion-therapy',
-    essence:
-      'IV drips, the injection bar, iron therapy, and a metabolic program — screened first and delivered under physician oversight.',
-    accent: 'health',
-    accentText: 'health-text',
-    chips: ['IV drips', 'Injection bar', 'Iron therapy'],
-  },
-];
+import { institutes } from '../data/institutes';
 ---
 
 <Base
   title="Restoration Medical — Refined by Medicine"
-  description="A physician-led medical practice in Toronto. Medical Aesthetics and Infusion Therapy under one clinical standard — screened first, tailored to you, and held to the evidence."
+  description="One institution, many worlds of care. Restoration Medical brings six physician-led institutes — family medicine, pain medicine, medical aesthetics, rehabilitation, performance medicine, and infusion therapy — under one roof and one clinical standard."
 >
   <section class="section hero">
     <div class="wrap hero__grid">
       <div class="hero__copy">
         <span class="eyebrow">Restoration Medical</span>
-        <h1 class="hero__title ripple">One practice. <span class="it">Refined by medicine.</span></h1>
+        <h1 class="hero__title ripple">One institution. <span class="it">Many worlds of care.</span></h1>
         <p class="lede">
-          Two divisions, one clinical standard. We screen first, tailor to you, and treat with
-          restraint — honest about what each option can and cannot do.
+          Six physician-led institutes under one roof. Each its own world — its own clinicians, its
+          own focus — held to a single clinical standard. Screened first, honest about the evidence.
         </p>
         <div class="hero__actions">
-          <a class="btn btn--lg" href="/contact">Book a consult</a>
-          <a class="btn btn--ghost btn--lg" href="#divisions">Explore our services</a>
+          <a class="btn btn--lg" href="#institutes">Choose your journey</a>
+          <a class="btn btn--ghost btn--lg" href="/about">About the institution</a>
         </div>
-        <p class="meta hero__tag">Medical Aesthetics · Infusion Therapy</p>
+        <p class="meta hero__tag">Refined by Medicine.</p>
       </div>
       <div class="hero__motif">
         <HeroMotif />
@@ -51,33 +29,31 @@ const divisions = [
     </div>
   </section>
 
-  <section id="divisions" class="section-tight">
+  <section id="institutes" class="section-tight">
     <div class="wrap">
       <header class="section-head reveal">
-        <span class="eyebrow">Our divisions</span>
-        <h2>Two divisions, one standard of care.</h2>
+        <span class="eyebrow">Choose your journey</span>
+        <h2>Six institutes. One institution.</h2>
         <p class="lede">
-          Each service line keeps its own focus and its own clinicians — and every one of them
-          answers to the same physician oversight.
+          Step into any institute and the world changes — the focus, the colour, the clinicians.
+          Step back out and you’re still inside one practice, one standard, one record of care.
         </p>
       </header>
+
       <div class="grid grid--cards reveal" style="margin-top:2.5rem">
         {
-          divisions.map((d) => (
+          institutes.map((i) => (
             <a
               class="card card--link"
-              href={d.href}
-              style={`--accent: var(--accent-${d.accent}); --accent-text: var(--accent-${d.accentText})`}
+              href={`/${i.slug}`}
+              style={`--accent: var(--accent-${i.accent}); --accent-text: var(--accent-${i.accent}-text)`}
             >
-              <span class="card__family">{d.family}</span>
-              <h3 class="card__name">{d.name}</h3>
-              <p class="card__essence">{d.essence}</p>
-              <div class="card__actives">
-                {d.chips.map((c) => (
-                  <span class="chip"><span class="chip__dot" />{c}</span>
-                ))}
-              </div>
-              <span class="card__go">Visit {d.name} &rarr;</span>
+              <span class="card__family">Institute</span>
+              <h3 class="card__name">{i.name}</h3>
+              <p class="card__essence">{i.essence}</p>
+              <span class="card__go">
+                {i.status === 'live' ? 'Enter' : 'Explore'} {i.name} &rarr;
+              </span>
             </a>
           ))
         }
@@ -87,8 +63,8 @@ const divisions = [
 
   <figure class="pullquote reveal">
     <div class="pullquote__rule"></div>
-    <blockquote class="pullquote__text ripple">One standard of care, across every service.</blockquote>
-    <figcaption class="pullquote__cite">The practice</figcaption>
+    <blockquote class="pullquote__text ripple">Different worlds. One standard of care.</blockquote>
+    <figcaption class="pullquote__cite">The institution</figcaption>
   </figure>
 
   <section class="section-tight fill">
@@ -97,8 +73,8 @@ const divisions = [
         <span class="eyebrow">The clinic, not the counter</span>
         <h2>Trust is a design feature.</h2>
         <p class="lede">
-          Every option is reviewed by a physician and delivered by clinicians. We show our evidence
-          rather than imply it — and we keep a genuine medical anchor across both divisions.
+          Every institute answers to the same physician oversight. We show our evidence rather than
+          imply it — and we keep a genuine medical anchor across the whole institution.
         </p>
         <p style="margin-top:1.4rem; display:flex; gap:1.4rem; flex-wrap:wrap; align-items:center">
           <span class="evidence evidence--established" tabindex="0" role="note" aria-label="Established evidence">
@@ -123,14 +99,14 @@ const divisions = [
 
   <section class="section-tight">
     <div class="wrap-narrow cta-band reveal">
-      <h2 class="cta-band__title">Start with a consult.</h2>
+      <h2 class="cta-band__title">Not sure which institute?</h2>
       <p class="cta-band__body">
-        Not sure which division fits? Begin with one conversation. We screen first, then point you
-        to the right service — never the other way round.
+        Start with one conversation. We screen first, then point you to the right institute — never
+        the other way round.
       </p>
       <div class="cta-band__actions">
         <a class="btn btn--lg" href="/contact">Book a consult</a>
-        <a class="btn btn--ghost btn--lg" href="/practice">How we practise</a>
+        <a class="btn btn--ghost btn--lg" href="/physicians">Meet the physicians</a>
       </div>
     </div>
   </section>

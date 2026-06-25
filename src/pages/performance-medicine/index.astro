@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import InstituteLanding from '../../components/InstituteLanding.astro';
+import { instituteBySlug } from '../../data/institutes';
+
+const institute = instituteBySlug('performance-medicine')!;
+---
+
+<Base
+  title="Performance Medicine — Restoration Medical"
+  description="The Institute of Performance Medicine at Restoration Medical. Evidence-led optimisation for how you train, recover, and live — physiology, not hype."
+  institute={institute}
+>
+  <InstituteLanding institute={institute} />
+</Base>

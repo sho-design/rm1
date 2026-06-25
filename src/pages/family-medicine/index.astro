@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+import InstituteLanding from '../../components/InstituteLanding.astro';
+import { instituteBySlug } from '../../data/institutes';
+
+const institute = instituteBySlug('family-medicine')!;
+---
+
+<Base
+  title="Family Medicine — Restoration Medical"
+  description="The Institute of Family Medicine at Restoration Medical. Continuous, whole-person primary care — prevention, chronic-condition management, and a clinician who knows your history."
+  institute={institute}
+>
+  <InstituteLanding institute={institute} />
+</Base>

@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Placeholder location(s) — replace with real clinics, hours, and contact.
+const locations = [
+  {
+    name: 'Main Clinic',
+    address: ['000 Example Avenue, Suite 200', 'Toronto, ON'],
+    hours: 'Mon–Fri 9–6 · Sat by appointment',
+    note: 'Home to all six institutes.',
+  },
+];
+---
+
+<Base
+  title="Locations — Restoration Medical"
+  description="Where to find Restoration Medical. One institution, all institutes under one roof."
+>
+  <section class="section-tight">
+    <div class="wrap">
+      <header class="page-header reveal">
+        <span class="eyebrow">Locations</span>
+        <h1 class="page-header__title ripple">Find us.</h1>
+        <p class="page-header__lead">
+          One institution, all institutes under one roof — so your care stays coordinated in a
+          single place.
+        </p>
+      </header>
+
+      <div class="grid grid--cards reveal" style="margin-top:2rem">
+        {
+          locations.map((loc) => (
+            <article class="card">
+              <span class="card__family">Clinic</span>
+              <h3 class="card__name">{loc.name}</h3>
+              <p class="card__essence">
+                {loc.address.map((line) => (
+                  <>
+                    {line}
+                    <br />
+                  </>
+                ))}
+                <br />
+                {loc.hours}
+              </p>
+              <p class="meta">{loc.note}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="advisory reveal" style="margin-top:2.5rem">
+        <span class="advisory__badge" aria-hidden="true">i</span>
+        <p class="advisory__body">
+          <strong>Placeholder address.</strong> Send the real clinic location(s), hours, parking,
+          and accessibility notes and we’ll add them — plus a map embed if you’d like one.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
