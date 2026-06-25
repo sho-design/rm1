@@ -49,9 +49,10 @@ stay in sync from one source.
 ## Stack
 
 - [Astro](https://astro.build) (static output), deployed on Vercel
-- Shared design system in `src/styles/global.css` — identical tokens, type
-  (Fraunces / Inter Tight / Spline Sans Mono), and components used across all
-  the sites, so the whole property reads as one practice.
+- Shared design system in `src/styles/global.css` — identical tokens, a tight
+  two-family type system (Fraunces for display, Inter Tight for body and
+  labels), and components used across all the sites, so the whole property
+  reads as one practice.
 - Shared client behaviour in `src/scripts/site.ts` (reveal-on-scroll, droplet
   cursor, ripple text, mega-menu, mobile drawer) and the hero canvas in
   `src/components/HeroMotif.astro`.
