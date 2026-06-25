@@ -1,0 +1,184 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Infusion Therapy at Restoration Medical · Refined by Medicine.',
+  description = 'Physician-led IV infusions and injections at Restoration Medical. Wellness drips, the injection bar, and clinical iron therapy — reviewed by our physician, given by our nurses.',
+} = Astro.props;
+
+// Infusion Therapy lives under /infusion-therapy within Restoration Medical.
+// ip() rebases the original IT routes onto that subdirectory.
+const ip = (p: string) => (p === '/' ? '/infusion-therapy' : `/infusion-therapy${p}`);
+const BOOK = '/contact';
+
+const nav = [
+  { label: 'Drips & Shots', href: ip('/drips') },
+  { label: 'By Concern', href: ip('/concerns') },
+  { label: 'How It Works', href: ip('/how-it-works') },
+  { label: 'Iron Therapy', href: ip('/iron-therapy') },
+  { label: 'About', href: ip('/about') },
+];
+
+// Infusion accent palette (drawn from the IT site), exposed as CSS vars so the
+// drip cards and teal chrome render correctly. Page accent = recovery (teal).
+const accentVars = [
+  '--accent-wellness:#3e5c6e',
+  '--accent-radiance:#b98aae',
+  '--accent-immune:#c2703d',
+  '--accent-energy:#c9a227',
+  '--accent-metabolic:#6e8b5a',
+  '--accent-recovery:#4f7c82',
+  '--accent:#4f7c82',
+  '--accent-text:#3e6466',
+].join(';');
+
+const year = 2026;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#fcfcfd" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t !== 'dark' && t !== 'light') {
+            t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          document.documentElement.dataset.theme = t;
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body style={accentVars}>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="nav">
+      <div class="wrap nav__bar">
+        <a class="nav__brand" href={ip('/')} aria-label="Infusion Therapy at Restoration Medical">
+          <span class="nav__brand-name">Infusion Therapy</span>
+          <span class="nav__brand-line">at Restoration Medical</span>
+        </a>
+
+        <nav class="nav__links" aria-label="Primary">
+          {nav.map((n) => <a class="nav__link" href={n.href}>{n.label}</a>)}
+          <a class="btn nav__cta" href={BOOK}>Book a consult</a>
+        </nav>
+
+        <div class="nav__actions">
+          <button class="nav__theme" data-theme-toggle type="button" aria-label="Toggle light or dark mode">
+            <svg class="nav__theme-icon nav__theme-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+            </svg>
+            <svg class="nav__theme-icon nav__theme-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6" />
+              <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+            </svg>
+          </button>
+          <button class="nav__burger" data-burger aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <span class="nav__burger-lines"><span class="nav__burger-bar"></span><span class="nav__burger-bar"></span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="mobile__scrim" data-mobile-scrim hidden></div>
+    <aside class="mobile" id="mobile-menu" aria-label="Menu" hidden>
+      <div class="mobile__inner">
+        {nav.map((n) => <a class="mobile__link" href={n.href}>{n.label}</a>)}
+        <a class="mobile__link" href={ip('/')}>Infusion home</a>
+        <a class="mobile__link" href="/">↤ Restoration Medical</a>
+        <a class="btn btn--lg mobile__cta" href={BOOK}>Book a consult</a>
+      </div>
+    </aside>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div class="footer__top">
+          <div>
+            <p class="eyebrow">Infusion Therapy</p>
+            <p class="footer__name">Refined by Medicine.</p>
+            <p class="footer__pitch">
+              Physician-reviewed, nurse-administered IV therapy — wellness and clinical, under one
+              roof. An institute of Restoration Medical.
+            </p>
+          </div>
+          <div class="footer__nav">
+            <div class="footer__col">
+              <p class="footer__heading">Treatments</p>
+              <ul>
+                <li><a href={ip('/drips')}>All drips</a></li>
+                <li><a href={ip('/shots')}>The Injection Bar</a></li>
+                <li><a href={ip('/iron-therapy')}>Iron therapy</a></li>
+                <li><a href={ip('/metabolic-program')}>Metabolic program</a></li>
+              </ul>
+            </div>
+            <div class="footer__col">
+              <p class="footer__heading">Learn</p>
+              <ul>
+                <li><a href={ip('/how-it-works')}>How it works</a></li>
+                <li><a href={ip('/safety')}>Safety &amp; screening</a></li>
+                <li><a href={ip('/faq')}>FAQ</a></li>
+                <li><a href={ip('/journal')}>The Journal</a></li>
+              </ul>
+            </div>
+            <div class="footer__col">
+              <p class="footer__heading">Practice</p>
+              <ul>
+                <li><a href={ip('/about')}>About</a></li>
+                <li><a href={ip('/team')}>Our team</a></li>
+                <li><a href={BOOK}>Contact</a></li>
+                <li><a href="/">↤ Restoration Medical</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer__locations">
+          <div>
+            <p class="footer__loc-title">Thornhill</p>
+            <p class="footer__meta">Coming soon</p>
+          </div>
+          <div>
+            <p class="footer__loc-title">Maple</p>
+            <p class="footer__meta">Coming soon</p>
+          </div>
+        </div>
+
+        <div class="footer__legal">
+          <p class="footer__fine">
+            © {year} Restoration Medical. Information on this site is general and is not medical
+            advice; treatments are provided only after screening and physician review. Results vary.
+          </p>
+          <p class="footer__legallinks">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/accessibility">Accessibility</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <div class="grain" aria-hidden="true"></div>
+
+    <script src="../scripts/site.ts"></script>
+  </body>
+</html>
